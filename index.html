@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roulette Numbers</title>
+    <style>
+        .number {
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            line-height: 50px;
+            text-align: center;
+            border: 1px solid #000;
+            margin: 5px;
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Roulette Numbers</h1>
+    <div id="numbersContainer"></div>
+
+    <script>
+        async function fetchRouletteNumbers() {
+            try {
+                const response = await fetch('https://blaze1.space/api/roulette_games/recent');
+                const data = await response.json();
+                displayNumbers(data);
+            } catch (error) {
+                console.error('Error fetching roulette numbers:', error);
+            }
+        }
+
+        function displayNumbers(games) {
+            const numbersContainer = document.getElementById('numbersContainer');
+            numbersContainer.innerHTML = '';
+
+            games.forEach(game => {
+                const numberDiv = document.createElement('div');
+                numberDiv.classList.add('number');
+                numberDiv.textContent = game.result;
+                numbersContainer.appendChild(numberDiv);
+            });
+        }
+
+        fetchRouletteNumbers();
+    </script>
+</body>
+</html>
