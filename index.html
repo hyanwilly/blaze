@@ -5,35 +5,43 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Roulette Games</title>
     <style>
-        table {
-            border-collapse: collapse;
-            width: 100%;
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
             margin-bottom: 20px;
         }
-        th, td {
-            border: 1px solid #dddddd;
-            text-align: left;
-            padding: 8px;
+        .game {
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px solid #ddd;
+            padding: 10px 0;
         }
-        th {
-            background-color: #f2f2f2;
+        .game div {
+            flex: 1;
+            text-align: center;
+        }
+        .game-id {
+            flex: 0.5;
         }
     </style>
 </head>
 <body>
-    <h1>Roulette Games</h1>
-    <table id="gamesTable">
-        <thead>
-            <tr>
-                <th>Game ID</th>
-                <th>Date</th>
-                <th>Player</th>
-                <th>Result</th>
-            </tr>
-        </thead>
-        <tbody id="gamesBody">
-        </tbody>
-    </table>
+    <div class="container">
+        <h1>Roulette Games</h1>
+        <div id="gamesContainer"></div>
+    </div>
 
     <script>
         async function fetchRouletteGames() {
@@ -47,18 +55,19 @@
         }
 
         function displayGames(games) {
-            const gamesBody = document.getElementById('gamesBody');
-            gamesBody.innerHTML = '';
+            const gamesContainer = document.getElementById('gamesContainer');
+            gamesContainer.innerHTML = '';
 
             games.forEach(game => {
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td>${game.game_id}</td>
-                    <td>${game.date}</td>
-                    <td>${game.player}</td>
-                    <td>${game.result}</td>
+                const gameDiv = document.createElement('div');
+                gameDiv.classList.add('game');
+                gameDiv.innerHTML = `
+                    <div class="game-id">${game.game_id}</div>
+                    <div>${game.date}</div>
+                    <div>${game.player}</div>
+                    <div>${game.result}</div>
                 `;
-                gamesBody.appendChild(row);
+                gamesContainer.appendChild(gameDiv);
             });
         }
 
