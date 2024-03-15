@@ -3,48 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roulette Numbers</title>
+    <title>Roulette Games</title>
     <style>
-        .number {
-            display: inline-block;
-            width: 50px;
-            height: 50px;
-            line-height: 50px;
-            text-align: center;
-            border: 1px solid #000;
-            margin: 5px;
-            font-size: 20px;
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+        th {
+            background-color: #f2f2f2;
         }
     </style>
 </head>
 <body>
-    <h1>Roulette Numbers</h1>
-    <div id="numbersContainer"></div>
+    <h1>Roulette Games</h1>
+    <table id="gamesTable">
+        <thead>
+            <tr>
+                <th>Game ID</th>
+                <th>Date</th>
+                <th>Player</th>
+                <th>Result</th>
+            </tr>
+        </thead>
+        <tbody id="gamesBody">
+        </tbody>
+    </table>
 
     <script>
-        async function fetchRouletteNumbers() {
+        async function fetchRouletteGames() {
             try {
                 const response = await fetch('https://blaze1.space/api/roulette_games/recent');
                 const data = await response.json();
-                displayNumbers(data);
+                displayGames(data);
             } catch (error) {
-                console.error('Error fetching roulette numbers:', error);
+                console.error('Error fetching roulette games:', error);
             }
         }
 
-        function displayNumbers(games) {
-            const numbersContainer = document.getElementById('numbersContainer');
-            numbersContainer.innerHTML = '';
+        function displayGames(games) {
+            const gamesBody = document.getElementById('gamesBody');
+            gamesBody.innerHTML = '';
 
             games.forEach(game => {
-                const numberDiv = document.createElement('div');
-                numberDiv.classList.add('number');
-                numberDiv.textContent = game.result;
-                numbersContainer.appendChild(numberDiv);
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${game.game_id}</td>
+                    <td>${game.date}</td>
+                    <td>${game.player}</td>
+                    <td>${game.result}</td>
+                `;
+                gamesBody.appendChild(row);
             });
         }
 
-        fetchRouletteNumbers();
+        fetchRouletteGames();
     </script>
 </body>
 </html>
